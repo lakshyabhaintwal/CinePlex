@@ -29,6 +29,8 @@ ALLOWED_HOSTS = ["cineplex-1-akn1.onrender.com",
                     "*"
                     ]
 
+CSRF_TRUSTED_ORIGINS = ["https://cineplex-1-akn1.onrender.com"]
+
 
 # Application definition
 
