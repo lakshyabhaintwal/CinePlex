@@ -10,7 +10,7 @@ def login_view(request):
         password = request.POST.get("password")
 
         response = requests.post(
-            "http://127.0.0.1:8000/login",
+            "https://cineplex-jhyo.onrender.com/login",
             params={"email": email, "password": password}
         )
 
@@ -33,7 +33,7 @@ def signup_view(request):
         password = request.POST.get("password")
 
         response = requests.post(
-            "http://127.0.0.1:8000/signup",
+            "https://cineplex-jhyo.onrender.com/signup",
             params={"email": email, "password": password}
         )
 
@@ -52,7 +52,7 @@ def home_view(request):
         return redirect("login")
     
     response = requests.get(
-        "http://127.0.0.1:8000/me",
+        "https://cineplex-jhyo.onrender.com/me",
         headers={
             "Authorization": f"Bearer {token}"
         }
@@ -111,7 +111,7 @@ def seats_view(request, showtime_id):
         return redirect("login")
 
     response = requests.get(
-    "http://127.0.0.1:8000/available-seats",
+    "https://cineplex-jhyo.onrender.com/available-seats",
     params={"showtime_id": showtime_id},
     headers={
         "Authorization": f"Bearer {token}"
@@ -134,7 +134,7 @@ def book_seat(request):
         showtime_id = request.POST.get("showtime_id")
 
         response = requests.post(
-            "http://127.0.0.1:8000/reserve-seat",
+            "https://cineplex-jhyo.onrender.com/reserve-seat",
             params={
                 "showtime_id": showtime_id,
                 "seat_number": seat
@@ -153,7 +153,7 @@ def my_reservations_view(request):
         return redirect("login")
 
     response = requests.get(
-        "http://127.0.0.1:8000/my-reservations",
+        "https://cineplex-jhyo.onrender.com/my-reservations",
         headers={
             "Authorization": f"Bearer {token}"
         }
@@ -177,7 +177,7 @@ def cancel_reservation_view(request):
         print("RESERVATION ID:", reservation_id)  # 🔥 debug
 
         api_response = requests.post(   # 🔥 rename variable
-            "http://127.0.0.1:8000/cancel-reservation",
+            "https://cineplex-jhyo.onrender.com/cancel-reservation",
             params={"reservation_id": reservation_id},
             headers={
                 "Authorization": f"Bearer {token}"
@@ -261,7 +261,7 @@ def add_showtime(request, movie_id):
         showtime = request.POST.get("showtime")
 
         requests.post(
-            "http://127.0.0.1:8000/showtimes",
+            "https://cineplex-jhyo.onrender.com/showtimes",
             params={
                 "movie_id": movie_id,
                 "showtime": showtime
