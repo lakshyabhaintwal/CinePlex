@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Films — Cineplex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:    #111110;
+            --bg2:   #1a1a18;
+            --rule:  rgba(255,255,255,0.07);
+            --text:  #eeece8;
+            --muted: #7a7770;
+            --dim:   #3a3835;
+            --amber: #c8964a;
+        }
+
+        html, body {
+            min-height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Geist', -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid var(--rule);
+            background: rgba(17,17,16,0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            text-decoration: none;
+        }
+
+        .nav-logo span { color: var(--amber); }
+
+        .nav-links { display: flex; align-items: center; gap: 8px; }
+
+        .nav-links a {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 2px;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); background: var(--bg2); }
+        .nav-links a.active { color: var(--text); }
+
+        .page {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 104px 40px 80px;
+            animation: up 0.6s ease both;
+        }
+
+        .overline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 16px;
+        }
+
+        .overline-rule {
+            width: 28px;
+            height: 1px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1.08;
+            color: var(--text);
+            margin-bottom: 56px;
+            letter-spacing: -0.02em;
+        }
+
+        h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .movie-card {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+        }
+
+        .poster-wrap {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            overflow: hidden;
+            border-radius: 2px;
+            background: var(--bg2);
+            margin-bottom: 14px;
+            border: 1px solid var(--dim);
+            position: relative;
+        }
+
+        .poster-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease, opacity 0.3s;
+            opacity: 0.8;
+        }
+
+        .movie-card:hover .poster-wrap img {
+            transform: scale(1.04);
+            opacity: 1;
+        }
+
+        .poster-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(17,17,16,0.7) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 14px;
+        }
+
+        .movie-card:hover .poster-overlay { opacity: 1; }
+
+        .overlay-cta {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--amber);
+            border-bottom: 1px solid rgba(200,150,74,0.4);
+            padding-bottom: 2px;
+        }
+
+        .movie-card:hover .poster-wrap { border-color: rgba(200,150,74,0.3); }
+
+        .movie-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            margin-bottom: 4px;
+        }
+
+        .movie-genre {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 8px;
+        }
+
+        .movie-desc {
+            font-size: 12px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        @keyframes up {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 560px) {
+            nav { padding: 0 20px; }
+            .page { padding: 88px 20px 60px; }
+            h1 { font-size: 32px; margin-bottom: 40px; }
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">Cine<span>plex</span></a>
+    <div class="nav-links">
+        <a href="/movies/" class="active">Films</a>
+        <a href="/my-reservations/">Tickets</a>
+    </div>
+</nav>
+
+<div class="page">
+
+    <div class="overline"><span class="overline-rule"></span> Now showing</div>
+    <h1>What's <em>on tonight.</em></h1>
+
+    <div class="grid">
+        {% for movie in movies %}
+        <a href="/showtimes/{{ movie.id }}" class="movie-card">
+            <div class="poster-wrap">
+                <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+                <div class="poster-overlay">
+                    <span class="overlay-cta">Showtimes →</span>
+                </div>
+            </div>
+            <div class="movie-title">{{ movie.title }}</div>
+            <div class="movie-genre">{{ movie.genre }}</div>
+            <div class="movie-desc">{{ movie.description }}</div>
+        </a>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>

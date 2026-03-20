@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Movie — Cineplex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:    #111110;
+            --bg2:   #1a1a18;
+            --rule:  rgba(255,255,255,0.07);
+            --text:  #eeece8;
+            --muted: #7a7770;
+            --dim:   #3a3835;
+            --amber: #c8964a;
+        }
+
+        html, body {
+            min-height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Geist', -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid var(--rule);
+            background: rgba(17,17,16,0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            text-decoration: none;
+        }
+
+        .nav-logo span { color: var(--amber); }
+
+        .nav-badge {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--amber);
+            border: 1px solid rgba(200,150,74,0.3);
+            border-radius: 2px;
+            padding: 4px 10px;
+        }
+
+        .page {
+            min-height: 100vh;
+            padding-top: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 40px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 480px;
+            padding: 48px 40px;
+            border: 1px solid var(--dim);
+            border-radius: 2px;
+            margin: 40px 20px;
+            animation: up 0.6s ease both;
+        }
+
+        .overline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 16px;
+        }
+
+        .overline-rule {
+            width: 20px;
+            height: 1px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--text);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .editing-label {
+            font-size: 12px;
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 36px;
+        }
+
+        .editing-label strong {
+            color: var(--text);
+            font-weight: 400;
+        }
+
+        .field { margin-bottom: 16px; }
+
+        .field label {
+            display: block;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            background: var(--bg2);
+            border: 1px solid var(--dim);
+            border-radius: 2px;
+            padding: 12px 14px;
+            font-size: 14px;
+            font-family: 'Geist', sans-serif;
+            font-weight: 300;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .field input:focus,
+        .field textarea:focus { border-color: var(--amber); }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.6;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn-fill {
+            flex: 1;
+            background: var(--amber);
+            color: var(--bg);
+            border: none;
+            border-radius: 2px;
+            padding: 13px;
+            font-size: 11px;
+            font-family: 'Geist', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+        }
+
+        .btn-fill:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-fill:active { transform: translateY(0); }
+
+        .btn-cancel {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border: 1px solid var(--dim);
+            border-radius: 2px;
+            padding: 13px 20px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .btn-cancel:hover { color: var(--text); border-color: var(--muted); }
+
+        @keyframes up {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            nav { padding: 0 20px; }
+            .card { padding: 40px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">Cine<span>plex</span></a>
+    <span class="nav-badge">Admin</span>
+</nav>
+
+<div class="page">
+    <div class="card">
+        <div class="overline"><span class="overline-rule"></span> Admin</div>
+        <h1>Edit <em>film.</em></h1>
+        <p class="editing-label">Editing <strong>{{ movie.title }}</strong></p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="field">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" value="{{ movie.title }}" required>
+            </div>
+            <div class="field">
+                <label for="description">Description</label>
+                <textarea id="description" name="description">{{ movie.description }}</textarea>
+            </div>
+            <div class="field">
+                <label for="genre">Genre</label>
+                <input type="text" id="genre" name="genre" value="{{ movie.genre }}" required>
+            </div>
+            <div class="field">
+                <label for="poster_url">Poster URL</label>
+                <input type="text" id="poster_url" name="poster_url" value="{{ movie.poster_url }}">
+            </div>
+            <div class="field">
+                <label for="duration">Duration (mins)</label>
+                <input type="number" id="duration" name="duration" value="{{ movie.duration }}" required>
+            </div>
+            <div class="btn-row">
+                <button type="submit" class="btn-fill">Save changes</button>
+                <a href="/dashboard/" class="btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

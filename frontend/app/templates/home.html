@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home — Cineplex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:    #111110;
+            --bg2:   #1a1a18;
+            --rule:  rgba(255,255,255,0.07);
+            --text:  #eeece8;
+            --muted: #7a7770;
+            --dim:   #3a3835;
+            --amber: #c8964a;
+        }
+
+        html, body {
+            height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Geist', -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid var(--rule);
+            background: rgba(17,17,16,0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            text-decoration: none;
+        }
+
+        .nav-logo span { color: var(--amber); }
+
+        .nav-links { display: flex; align-items: center; gap: 8px; }
+
+        .nav-links a {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 2px;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); background: var(--bg2); }
+
+        .page {
+            min-height: 100vh;
+            padding-top: 56px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .left {
+            padding: 88px 56px 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 1px solid var(--rule);
+            animation: up 0.65s ease both;
+        }
+
+        .overline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 24px;
+        }
+
+        .overline-rule {
+            width: 28px;
+            height: 1px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(40px, 4.2vw, 62px);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+
+        h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .sub {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.75;
+            max-width: 340px;
+            margin-bottom: 48px;
+        }
+
+        .btns { display: flex; align-items: center; gap: 18px; }
+
+        .btn-fill {
+            display: inline-block;
+            background: var(--amber);
+            color: var(--bg);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            padding: 13px 26px;
+            border-radius: 2px;
+            transition: opacity 0.2s, transform 0.15s;
+        }
+
+        .btn-fill:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-fill:active { transform: translateY(0); }
+
+        .btn-ghost {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.10em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding-bottom: 3px;
+            border-bottom: 1px solid var(--dim);
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+        .right {
+            padding: 88px 56px 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: up 0.65s 0.10s ease both;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 20px;
+        }
+
+        .section-rule {
+            width: 20px;
+            height: 1px;
+            background: var(--amber);
+            opacity: 0.5;
+        }
+
+        .user-card {
+            border: 1px solid var(--dim);
+            border-radius: 2px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--bg2);
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--amber);
+            color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .user-email {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-meta {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 5px;
+            height: 5px;
+            background: #3a8c52;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        @keyframes up {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 720px) {
+            nav { padding: 0 20px; }
+            .page { grid-template-columns: 1fr; }
+            .left { padding: 56px 24px 40px; border-right: none; border-bottom: 1px solid var(--rule); }
+            .right { padding: 40px 24px 56px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-logo">Cine<span>plex</span></a>
+    <div class="nav-links">
+        <a href="/movies/">Films</a>
+        <a href="/my-reservations/">Tickets</a>
+    </div>
+</nav>
+
+<div class="page">
+
+    <div class="left">
+        <div class="overline"><span class="overline-rule"></span> Welcome back</div>
+        <h1>
+            Your seat<br>
+            <em>is waiting</em><br>
+            for you.
+        </h1>
+        <p class="sub">Browse what's on, pick your show, and reserve in under a minute.</p>
+        <div class="btns">
+            <a href="/movies/" class="btn-fill">Browse films</a>
+            <a href="/my-reservations/" class="btn-ghost">My tickets</a>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="section-label"><span class="section-rule"></span> Signed in as</div>
+        <div class="user-card">
+            <div class="avatar">{{ email|first|upper }}</div>
+            <div style="min-width:0">
+                <div class="user-email">{{ email }}</div>
+                <div class="user-meta"><span class="dot"></span> Active session</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
