@@ -69,7 +69,7 @@ def movies_view(request):
     if not token:
         return redirect("login")
     response = requests.get(
-        "http://127.0.0.1:8000/movies",
+        "https://cineplex-jhyo.onrender.com/movies",
         headers={
             "Authorization": f"Bearer {token}"
         }
@@ -87,7 +87,7 @@ def showtimes_view(request, movie_id):
     if not token:
         return redirect("login")
     response = requests.get(
-        f"http://127.0.0.1:8000/showtimes/{movie_id}",
+        f"https://cineplex-jhyo.onrender.com/showtimes/{movie_id}",
         headers={
             "Authorization": f"Bearer {token}"
         }
@@ -201,7 +201,7 @@ def add_movie(request):
 
         try:
             response = requests.post(
-                "http://127.0.0.1:8000/movies",   # ✅ FIXED
+                "https://cineplex-jhyo.onrender.com/movies",   # ✅ FIXED
                 json=data
             )
 
@@ -224,14 +224,14 @@ def add_movie(request):
 
 
 def admin_movies(request):
-    response = requests.get("http://127.0.0.1:8000/movies")
+    response = requests.get("https://cineplex-jhyo.onrender.com/movies")
     movies = response.json()
 
     return render(request, "admin_movies.html", {"movies": movies})
 
 
 def delete_movie_view(request, movie_id):
-    requests.delete(f"http://127.0.0.1:8000/movies/{movie_id}")
+    requests.delete(f"https://cineplex-jhyo.onrender.com/movies/{movie_id}")
     return redirect("admin_movies")
 
 def edit_movie(request, movie_id):
@@ -244,12 +244,12 @@ def edit_movie(request, movie_id):
             "duration": int(request.POST.get("duration")),
         }
 
-        requests.put(f"http://127.0.0.1:8000/movies/{movie_id}", json=data)
+        requests.put(f"https://cineplex-jhyo.onrender.com/movies/{movie_id}", json=data)
 
         return redirect("admin_movies")
 
     # GET request → fetch movie
-    response = requests.get("http://127.0.0.1:8000/movies")
+    response = requests.get("https://cineplex-jhyo.onrender.com/movies")
     movies = response.json()
 
     movie = next((m for m in movies if m["id"] == movie_id), None)
